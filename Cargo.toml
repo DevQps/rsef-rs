@@ -1,0 +1,29 @@
+[package]
+name = "rsef-rs"
+version = "0.1.0"
+authors = ["Christian Veenman <chris_veenman@hotmail.com>"]
+edition = '2018'
+readme = "README.md"
+keywords = ["rsef", "parser"]
+categories = ["parsing"]
+repository = "https://github.com/DevQps/rsef-rs"
+homepage = "https://github.com/DevQps/rsef-rs"
+documentation = "https://docs.rs/rsef-rs"
+description = "A library for downloading and parsing RIR Statistics Exchange Format (RSEF) listings."
+license = "GPL-3.0"
+exclude = [
+    "README.md",
+    "tests/*",
+    ".travis.yml"
+]
+
+[badges]
+travis-ci = { repository = "DevQps/rsef-rs", branch = "master" }
+codecov = { repository = "DevQps/rsef-rs", branch = "master", service = "github" }
+maintenance = { status = "actively-developed" }
+
+[dependencies]
+reqwest = "0.9.9"
+bzip2 = "0.3.3"
+libflate = "0.1"
+chrono = "0.4.6"
