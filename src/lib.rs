@@ -37,14 +37,13 @@ pub enum Registry
     RIPE
 }
 
-fn download(registry: Registry, timestamp: i64) -> Result<Box<dyn Read>, Box<std::error::Error>>
+pub fn download(registry: Registry, timestamp: i64) -> Result<Box<dyn Read>, Box<std::error::Error>>
 {
     let datetime: DateTime<Utc> = DateTime::from_utc(NaiveDateTime::from_timestamp(timestamp, 0), Utc);
     let year = datetime.year();
     let month = if datetime.month() < 10 {format!("0{}", datetime.month())} else {format!("{}", datetime.month())};
     let day = if datetime.month() < 10 {format!("0{}", datetime.day())} else {format!("{}", datetime.day())};
-
-
+    
     match registry {
         Registry::AFRINIC => {
             let url = format!("https://ftp.afrinic.net/pub/stats/afrinic/{}/delegated-afrinic-extended-{}{}{}", year, year, month, day);
