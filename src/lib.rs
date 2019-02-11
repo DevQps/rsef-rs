@@ -256,12 +256,12 @@ where
             line.pop();
 
             // Skip the comments.
-            if line.starts_with("#") {
+            if line.starts_with('#') {
                 continue;
             }
 
             // Divide the line into fields.
-            let fields = line.split("|").collect::<Vec<_>>();
+            let fields = line.split('|').collect::<Vec<_>>();
 
             // Check if line is a version.
             if fields[0].chars().all(|x| x.is_digit(10) || x.eq(&'.')) {
