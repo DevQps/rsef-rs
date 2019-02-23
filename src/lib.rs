@@ -114,7 +114,7 @@ pub fn download(
 }
 
 /// Represents either a Version, Summary or Record line.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Line {
     /// Represents a version line in an RSEF listing.
     Version(Version),
@@ -127,7 +127,7 @@ pub enum Line {
 }
 
 /// Represents the different number of Internet resource types.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Type {
     /// Autonomous System Number
     ASN,
@@ -159,7 +159,7 @@ impl From<&str> for Type {
 }
 
 /// Represents an RSEF summary line.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Summary {
     /** The registry that this record belongs to. */
     pub registry: String,
@@ -172,7 +172,7 @@ pub struct Summary {
 }
 
 /// Represents an RSEF version line.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Version {
     /** The version of the RIR Statistics Exchange Format. */
     pub version: f64,
@@ -197,7 +197,7 @@ pub struct Version {
 }
 
 /// Represents an record about either an ASN, IPv4 prefix or IPv6 prefix.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Record {
     /** The registry that this record belongs to. */
     pub registry: String,
