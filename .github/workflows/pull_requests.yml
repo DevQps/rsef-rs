@@ -30,7 +30,7 @@ jobs:
 
       - name: Build
         id: build
-        run: cargo build --verbose
+        run: cargo build --all-targets --verbose
 
       - name: Perform rustfmt checks.
         run: cargo fmt -- --check
