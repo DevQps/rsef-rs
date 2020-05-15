@@ -3,42 +3,8 @@ name: Validation
 on: [pull_request]
 
 jobs:
-  build:
-    name: Builds the project
-    strategy:
-      matrix:
-        os: ["windows-2019", "ubuntu-16.04", "ubuntu-18.04", "macOS-latest"]
-        toolchain: ["stable", "beta", "nightly", "1.32.0"]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Install the Rust toolchain
-        uses: actions-rs/toolchain@v1
-        id: toolchain
-        with:
-          toolchain: ${{ matrix.toolchain }}
-          override: true
-          default: true
-
-      - name: Attempt to restore from cache
-        uses: actions/cache@v1
-        with:
-          path: target
-          key: ${{ matrix.os }}-${{ steps.toolchain.outputs.rustc_hash }}-build-${{ hashFiles('Cargo.lock') }}
-
-      - name: Build
-        id: build
-        run: cargo build --verbose
-
-      - name: Upload build
-        uses: actions/upload-artifact@v1
-        with:
-          name: build
-          path: target
-
   conventions:
-    name: Builds the project
+    name: Builds the project and checks code conventions with Rustfmt and Clippy
     strategy:
       matrix:
         os: ["windows-2019", "ubuntu-16.04", "ubuntu-18.04", "macOS-latest"]
@@ -62,11 +28,21 @@ jobs:
           path: target
           key: ${{ matrix.os }}-${{ steps.toolchain.outputs.rustc_hash }}-build-${{ hashFiles('Cargo.lock') }}
 
+      - name: Build
+        id: build
+        run: cargo build --verbose
+
       - name: Perform unit testing and integration testing
         run: cargo fmt -- --check
 
       - name: Perform unit testing and integration testing
         run: cargo clippy --all-targets --all-features -- -D warnings
+
+      - name: Upload build
+        uses: actions/upload-artifact@v1
+        with:
+          name: build
+          path: target
 
   testing:
     name: Perform testing

@@ -3,9 +3,9 @@
 //!
 //! The `rsef-rs` crate provides functionality to download and parse RSEF listings.
 //!
-use std::io::Read;
-use std::io::BufReader;
 use std::io::BufRead;
+use std::io::BufReader;
+use std::io::Read;
 
 #[cfg(feature = "download")]
 pub mod download;

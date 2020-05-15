@@ -39,8 +39,8 @@ use chrono::NaiveDateTime;
 use chrono::Utc;
 use libflate::gzip::Decoder;
 
-use std::io::Read;
 use std::error::Error;
+use std::io::Read;
 
 /// Represents a Regional Internet Registry (RIR).
 #[allow(missing_docs)]
@@ -57,7 +57,6 @@ pub enum Registry {
 /// The timestamp should be an UNIX Epoch. Returns a decoded stream that can be read from.
 impl Registry {
     pub fn download(&self, timestamp: i64) -> Result<Box<dyn Read>, Box<dyn Error>> {
-
         let datetime: DateTime<Utc> =
             DateTime::from_utc(NaiveDateTime::from_timestamp(timestamp, 0), Utc);
         let year = datetime.year();
@@ -150,7 +149,6 @@ mod tests {
         listings.push(Registry::RIPE.download(timestamp).unwrap());
 
         for stream in listings {
-
             let records = crate::read_all(stream).unwrap();
 
             for x in records {
