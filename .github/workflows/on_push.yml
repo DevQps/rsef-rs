@@ -35,10 +35,10 @@ jobs:
         run: cargo build --debug --verbose
 
       - name: Upload build
-          uses: actions/upload-artifact@v1
-          with:
-            name: build
-            path: target
+        uses: actions/upload-artifact@v1
+        with:
+          name: build
+          path: target
 
   conventions:
     name: Builds the project
