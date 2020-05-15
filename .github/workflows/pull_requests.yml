@@ -15,6 +15,7 @@ jobs:
 
       - name: Install the Rust toolchain
         uses: actions-rs/toolchain@v1
+        id: toolchain
         with:
           toolchain: ${{ matrix.toolchain }}
           override: true
@@ -24,7 +25,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: target
-          key: ${{ matrix.os }}-${{ rustc }}-build-${{ hashFiles('Cargo.lock') }}
+          key: ${{ matrix.os }}-${{ steps.toolchain.outputs.rustc_hash }}-build-${{ hashFiles('Cargo.lock') }}
 
       - name: Build
         id: build
@@ -49,6 +50,7 @@ jobs:
 
       - name: Install the Rust toolchain
         uses: actions-rs/toolchain@v1
+        id: toolchain
         with:
           toolchain: ${{ matrix.toolchain }}
           components: rustfmt, clippy
@@ -59,7 +61,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: target
-          key: ${{ matrix.os }}-${{ rustc }}-build-${{ hashFiles('Cargo.lock') }}
+          key: ${{ matrix.os }}-${{ steps.toolchain.outputs.rustc_hash }}-build-${{ hashFiles('Cargo.lock') }}
 
       - name: Perform unit testing and integration testing
         run: cargo fmt -- --check
@@ -80,6 +82,7 @@ jobs:
 
       - name: Install the Rust toolchain
         uses: actions-rs/toolchain@v1
+        id: toolchain
         with:
           toolchain: ${{ matrix.toolchain }}
           override: true
@@ -89,7 +92,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: target
-          key: ${{ matrix.os }}-${{ rustc }}-build-${{ hashFiles('Cargo.lock') }}
+          key: ${{ matrix.os }}-${{ steps.toolchain.outputs.rustc_hash }}-build-${{ hashFiles('Cargo.lock') }}
 
       - name: Perform unit testing and integration testing
         run: cargo test  --workspace --all-targets --verbose
