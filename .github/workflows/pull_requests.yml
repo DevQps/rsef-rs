@@ -4,7 +4,7 @@ on: [pull_request]
 
 jobs:
   conventions:
-    name: Builds the project and checks code conventions with Rustfmt and Clippy
+    name: Conventions
     strategy:
       matrix:
         os: ["windows-2019", "ubuntu-16.04", "ubuntu-18.04", "macOS-latest"]
@@ -32,10 +32,10 @@ jobs:
         id: build
         run: cargo build --verbose
 
-      - name: Perform unit testing and integration testing
+      - name: Perform rustfmt checks.
         run: cargo fmt -- --check
 
-      - name: Perform unit testing and integration testing
+      - name: Perform clippy checks.
         run: cargo clippy --all-targets --all-features -- -D warnings
 
       - name: Upload build
@@ -45,7 +45,7 @@ jobs:
           path: target
 
   testing:
-    name: Perform testing
+    name: Testing
     strategy:
       matrix:
         os: ["windows-2019", "ubuntu-16.04", "ubuntu-18.04", "macOS-latest"]

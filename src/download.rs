@@ -79,7 +79,7 @@ impl Registry {
                 );
 
                 let response = reqwest::get(url.as_str())?;
-                return Ok(Box::new(response));
+                Ok(Box::new(response))
             }
             Registry::APNIC => {
                 let url = format!(
@@ -88,7 +88,7 @@ impl Registry {
                 );
 
                 let response = reqwest::get(url.as_str())?;
-                return Ok(Box::new(Decoder::new(response)?));
+                Ok(Box::new(Decoder::new(response)?))
             }
             Registry::ARIN => {
                 let url = format!(
@@ -97,7 +97,7 @@ impl Registry {
                 );
 
                 let response = reqwest::get(url.as_str())?;
-                return Ok(Box::new(response));
+                Ok(Box::new(response))
             }
             Registry::LACNIC => {
                 let url = format!(
@@ -106,7 +106,7 @@ impl Registry {
                 );
 
                 let response = reqwest::get(url.as_str())?;
-                return Ok(Box::new(response));
+                Ok(Box::new(response))
             }
             Registry::RIPE => {
                 let url = format!(
@@ -115,9 +115,9 @@ impl Registry {
                 );
 
                 let response = reqwest::get(url.as_str())?;
-                return Ok(Box::new(BzDecoder::new(response)));
+                Ok(Box::new(BzDecoder::new(response)))
             }
-        };
+        }
     }
 }
 
