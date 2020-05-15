@@ -7,7 +7,7 @@ jobs:
     name: Builds the project
     strategy:
       matrix:
-        os: ["windows-2019", "ubuntu-16.04", "ubuntu-18.04", "macos-10.15"]
+        os: ["windows-2019", "ubuntu-16.04", "ubuntu-18.04", "macOS-latest"]
         toolchain: ["stable", "beta", "nightly", "1.32.0"]
     runs-on: ${{ matrix.os }}
     steps:
@@ -39,10 +39,9 @@ jobs:
 
   conventions:
     name: Builds the project
-    needs: build
     strategy:
       matrix:
-        os: ["windows-2019", "ubuntu-16.04", "ubuntu-18.04", "macos-10.15"]
+        os: ["windows-2019", "ubuntu-16.04", "ubuntu-18.04", "macOS-latest"]
         toolchain: ["stable", "beta", "nightly", "1.32.0"]
     runs-on: ${{ matrix.os }}
     steps:
@@ -71,10 +70,9 @@ jobs:
 
   testing:
     name: Perform testing
-    needs: build
     strategy:
       matrix:
-        os: ["windows-2019", "ubuntu-16.04", "ubuntu-18.04", "macos-10.15"]
+        os: ["windows-2019", "ubuntu-16.04", "ubuntu-18.04", "macOS-latest"]
         toolchain: ["stable", "beta", "nightly", "1.32.0"]
     runs-on: ${{ matrix.os }}
     steps:
