@@ -6,7 +6,6 @@
 //!
 //! ## Downloading and parsing an RSEF Listing
 //! ```
-//! use std::fs::File;
 //! use std::io::Cursor;
 //! use std::io::Read;
 //! use std::io::BufReader;
@@ -53,9 +52,9 @@ pub enum Registry {
     RIPE,
 }
 
-/// Downloads the RSEF listings of a specific Regional Internet Registry at a specific moment.
-/// The timestamp should be an UNIX Epoch. Returns a decoded stream that can be read from.
 impl Registry {
+    /// Downloads the RSEF listings of a specific Regional Internet Registry at a specific moment.
+    /// The timestamp should be an UNIX Epoch. Returns a decoded stream that can be read from.
     pub fn download(&self, timestamp: i64) -> Result<Box<dyn Read>, Box<dyn Error>> {
         let datetime: DateTime<Utc> =
             DateTime::from_utc(NaiveDateTime::from_timestamp(timestamp, 0), Utc);
@@ -129,7 +128,7 @@ mod tests {
     #[test]
     fn test_download() {
         // Friday 1 February 2019 21:22:48
-        let timestamp = 1549056168;
+        let timestamp = 1_549_056_168;
 
         let mut listings: Vec<Box<dyn Read>> = Vec::with_capacity(5);
 
