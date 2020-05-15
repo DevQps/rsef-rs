@@ -69,7 +69,7 @@ jobs:
           key: ${{ matrix.os }}-${{ steps.toolchain.outputs.rustc_hash }}-build-${{ hashFiles('Cargo.lock') }}
 
       - name: Perform unit testing and integration testing
-        run: cargo test  --workspace --all-targets --verbose
+        run: cargo test  --workspace --all-targets
 
       - name: Perform documentation tests
-        run: cargo test --doc --verbose
+        run: cargo test --doc
