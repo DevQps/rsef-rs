@@ -5,11 +5,11 @@ on: [pull_request]
 jobs:
   build:
     name: Builds the project
-    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-2019, ubuntu-16.04, ubuntu-18.04, macos-10.15]
+        os: ["windows-2019", "ubuntu-16.04", "ubuntu-18.04", "macos-10.15"]
         toolchain: ["stable", "beta", "nightly", "1.32.0"]
+      runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
 
@@ -40,11 +40,11 @@ jobs:
   conventions:
     name: Builds the project
     needs: build
-    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-2019, ubuntu-16.04, ubuntu-18.04, macos-10.15]
+        os: ["windows-2019", "ubuntu-16.04", "ubuntu-18.04", "macos-10.15"]
         toolchain: ["stable", "beta", "nightly", "1.32.0"]
+      runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
 
@@ -72,11 +72,11 @@ jobs:
   testing:
     name: Perform testing
     needs: build
-    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-2019, ubuntu-16.04, ubuntu-18.04, macos-10.15]
+        os: ["windows-2019", "ubuntu-16.04", "ubuntu-18.04", "macos-10.15"]
         toolchain: ["stable", "beta", "nightly", "1.32.0"]
+      runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
 
