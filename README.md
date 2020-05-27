@@ -1,5 +1,5 @@
 # RIR Statistics Exchange Format in Rust (rsef-rs)
-[![Build Status](https://github.com/DevQps/rsef-rs/workflows/CI/badge.svg)](https://github.com/DevQps/mrt-rs)
+[![Build Status](https://github.com/DevQps/rsef-rs/workflows/Validation/badge.svg)](https://github.com/DevQps/mrt-rs)
 [![codecov](https://codecov.io/gh/DevQps/rsef-rs/branch/master/graph/badge.svg)](https://codecov.io/gh/DevQps/mrt-rs)
 [![Crates](https://img.shields.io/crates/v/rsef_rs.svg)](https://crates.io/crates/mrt-rs)
 
