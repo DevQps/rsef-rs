@@ -68,12 +68,6 @@ jobs:
       - name: Perform documentation tests
         run: cargo test --doc
 
-      - name: Upload build
-        uses: actions/upload-artifact@v1
-        with:
-          name: ${{ matrix.os }}-${{ github.sha }}
-          path: target
-
   code_coverage:
     name: Code Coverage
     runs-on: "ubuntu-latest"
@@ -89,6 +83,8 @@ jobs:
 
       - name: Run cargo-tarpaulin
         uses: actions-rs/tarpaulin@v0.1
+        with:
+          args: "-- --verbose --all-features --workspace"
 
       - name: Upload to codecov.io
         uses: codecov/codecov-action@v1.0.2
