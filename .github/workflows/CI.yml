@@ -60,7 +60,7 @@ jobs:
 
       - name: Build
         id: build
-        run: cargo build --all-targets --verbose
+        run: cargo build --all-targets --all-features --verbose
 
       - name: Perform unit testing and integration testing
         run: cargo test --workspace --all-targets --all-features
