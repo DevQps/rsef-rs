@@ -9,7 +9,7 @@
 //! use rsef_rs::{Registry, Line};
 //!
 //! // Friday 1 February 2019 21:22:48
-//! let timestamp = 1549056168;
+//! let timestamp = 1_549_056_168;
 //! let stream = Registry::RIPE.download(timestamp).unwrap();
 //! let records = rsef_rs::read_all(stream).unwrap();
 //!
