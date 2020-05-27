@@ -3,6 +3,7 @@
 //!
 //! The `rsef-rs` crate provides functionality to download and parse RSEF listings.
 //!
+
 use std::io::BufRead;
 use std::io::BufReader;
 use std::io::Read;
@@ -128,9 +129,9 @@ pub struct Record {
 ///
 /// Reads all the RSEF entries found in a stream and returns a Vec of RSEF entries.
 ///
-pub fn read_all(read: impl Read) -> Result<Vec<Line>, std::io::Error> {
+pub fn read_all(read: impl Read) -> Result<impl Iterator<Item = Line>, std::io::Error> {
     let mut stream = BufReader::new(read);
-    let mut lines: Vec<Line> = Vec::with_capacity(1000);
+    let mut lines: Vec<Line> = Vec::new();
 
     loop {
         let mut line = String::new();
@@ -191,5 +192,5 @@ pub fn read_all(read: impl Read) -> Result<Vec<Line>, std::io::Error> {
         }));
     }
 
-    Ok(lines)
+    Ok(lines.into_iter())
 }

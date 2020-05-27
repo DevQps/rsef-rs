@@ -6,20 +6,19 @@
 //!
 //! ## Downloading and parsing an RSEF Listing
 //! ```
-//! use rsef_rs::{Registry, Line, Reader, download};
+//! use rsef_rs::{Registry, Line};
 //!
 //! // Friday 1 February 2019 21:22:48
 //! let timestamp = 1549056168;
-//! let registry = Registry::RIPE;
-//! let mut listing = registry.download(timestamp).unwrap();
-//!
-//! let records = reader.read_all().unwrap();
+//! let stream = Registry::RIPE.download(timestamp).unwrap();
+//! let records = rsef_rs::read_all(stream).unwrap();
 //!
 //! for x in records {
-//! match x {
-//!     Line::Version(x) => println!("Version: {:?}", x),
-//!     Line::Summary(x) => println!("Summary: {:?}", x),
-//!     Line::Record(x) => println!("Record: {:?}", x),
+//!     match x {
+//!         Line::Version(x) => println!("Version: {:?}", x),
+//!         Line::Summary(x) => println!("Summary: {:?}", x),
+//!         Line::Record(x) => println!("Record: {:?}", x),
+//!     }
 //! }
 //! ```
 
@@ -47,6 +46,7 @@ pub enum Registry {
 impl Registry {
     /// Downloads the RSEF listings of a specific Regional Internet Registry at a specific moment.
     /// The timestamp should be an UNIX Epoch. Returns a decoded stream that can be read from.
+    /// Only the year, month and day wll be used to select the listing for that day.
     pub fn download(&self, timestamp: i64) -> Result<Box<dyn Read>, Box<dyn Error>> {
         let datetime: DateTime<Utc> =
             DateTime::from_utc(NaiveDateTime::from_timestamp(timestamp, 0), Utc);
@@ -107,47 +107,6 @@ impl Registry {
 
                 let response = reqwest::get(url.as_str())?;
                 Ok(Box::new(BzDecoder::new(response)))
-            }
-        }
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    // Note this useful idiom: importing names from outer (for mod tests) scope.
-    use crate::*;
-
-    #[test]
-    fn test_download() {
-        // Friday 1 February 2019 21:22:48
-        let timestamp = 1_549_056_168;
-
-        let mut listings: Vec<Box<dyn Read>> = Vec::with_capacity(5);
-
-        println!("Downloading from AFRINIC");
-        listings.push(Registry::AFRINIC.download(timestamp).unwrap());
-
-        println!("Downloading from APNIC");
-        listings.push(Registry::APNIC.download(timestamp).unwrap());
-
-        println!("Downloading from ARIN");
-        listings.push(Registry::ARIN.download(timestamp).unwrap());
-
-        println!("Downloading from LACNIC");
-        listings.push(Registry::LACNIC.download(timestamp).unwrap());
-
-        println!("Downloading from RIPE");
-        listings.push(Registry::RIPE.download(timestamp).unwrap());
-
-        for stream in listings {
-            let records = crate::read_all(stream).unwrap();
-
-            for x in records {
-                match x {
-                    Line::Version(_) => continue,
-                    Line::Summary(_) => continue,
-                    Line::Record(_) => continue,
-                }
             }
         }
     }

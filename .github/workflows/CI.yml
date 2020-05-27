@@ -1,6 +1,6 @@
 name: Validation
 
-on: [pull_request]
+on: [push, pull_request]
 
 jobs:
   conventions:
@@ -25,7 +25,7 @@ jobs:
       - name: Perform rustfmt checks.
         run: cargo fmt -- --check
 
-      - name: Attempt to restore from cache
+      - name: Attempt to restore the compiled artifacts from cache
         uses: actions/cache@v1
         with:
           path: target
@@ -52,7 +52,7 @@ jobs:
           override: true
           default: true
 
-      - name: Attempt to restore the compiled dependencies from cache
+      - name: Attempt to restore the compiled artifacts from cache
         uses: actions/cache@v1
         with:
           path: target
