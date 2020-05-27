@@ -4,6 +4,8 @@
 //! The `rsef-rs` crate provides functionality to download and parse RSEF listings.
 //!
 
+use std::convert::TryFrom;
+use std::error::Error;
 use std::io::BufRead;
 use std::io::BufReader;
 use std::io::Read;
@@ -44,18 +46,20 @@ pub enum Type {
 }
 
 /// Converts a string to a Type.
-impl From<&str> for Type {
-    fn from(value: &str) -> Self {
+impl TryFrom<&str> for Type {
+    type Error = &'static str;
+
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
         let string = value.to_lowercase();
 
         if string.eq("asn") {
-            Type::ASN
+            Ok(Type::ASN)
         } else if string.eq("ipv4") {
-            Type::IPv4
+            Ok(Type::IPv4)
         } else if string.eq("ipv6") {
-            Type::IPv6
+            Ok(Type::IPv6)
         } else {
-            Type::Unknown
+            Err("Unknown type not matching 'asn', 'ipv4' or 'ipv6' found while attempting to parse resource type.")
         }
     }
 }
@@ -129,7 +133,7 @@ pub struct Record {
 ///
 /// Reads all the RSEF entries found in a stream and returns a Vec of RSEF entries.
 ///
-pub fn read_all(read: impl Read) -> Result<impl Iterator<Item = Line>, std::io::Error> {
+pub fn read_all(read: impl Read) -> Result<impl Iterator<Item = Line>, Box<dyn Error>> {
     let mut stream = BufReader::new(read);
     let mut lines: Vec<Line> = Vec::new();
 
@@ -170,7 +174,7 @@ pub fn read_all(read: impl Read) -> Result<impl Iterator<Item = Line>, std::io::
         if fields[5].to_string().eq("summary") {
             lines.push(Line::Summary(Summary {
                 registry: fields[0].to_string(),
-                res_type: Type::from(fields[2]),
+                res_type: Type::try_from(fields[2])?,
                 count: fields[4].parse::<u32>().unwrap(),
             }));
             continue;
@@ -179,7 +183,7 @@ pub fn read_all(read: impl Read) -> Result<impl Iterator<Item = Line>, std::io::
         lines.push(Line::Record(Record {
             registry: fields[0].to_string(),
             organization: fields[1].to_string(),
-            res_type: Type::from(fields[2]),
+            res_type: Type::try_from(fields[2])?,
             start: fields[3].to_string(),
             value: fields[4].parse::<u32>().unwrap(),
             date: fields[5].to_string(),
