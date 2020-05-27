@@ -111,3 +111,35 @@ impl Registry {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    // Note this useful idiom: importing names from outer (for mod tests) scope.
+    use crate::Registry;
+
+    #[test]
+    fn test_download() {
+        // Friday 1 February 2019 21:22:48
+        let timestamp = 1_549_056_168;
+
+        println!("Downloading from AFRINIC");
+        let stream = Registry::AFRINIC.download(timestamp).unwrap();
+        let _ = crate::read_all(stream).unwrap();
+
+        println!("Downloading from APNIC");
+        let stream = Registry::APNIC.download(timestamp).unwrap();
+        let _ = crate::read_all(stream).unwrap();
+
+        println!("Downloading from ARIN");
+        let stream = Registry::ARIN.download(timestamp).unwrap();
+        let _ = crate::read_all(stream).unwrap();
+
+        println!("Downloading from LACNIC");
+        let stream = Registry::LACNIC.download(timestamp).unwrap();
+        let _ = crate::read_all(stream).unwrap();
+
+        println!("Downloading from RIPE");
+        let stream = Registry::RIPE.download(timestamp).unwrap();
+        let _ = crate::read_all(stream).unwrap();
+    }
+}
