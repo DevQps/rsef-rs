@@ -198,3 +198,15 @@ pub fn read_all(read: impl Read) -> Result<impl Iterator<Item = Line>, Box<dyn E
 
     Ok(lines.into_iter())
 }
+
+#[cfg(doctest)]
+mod test_readme {
+    macro_rules! external_doc_test {
+        ($x:expr) => {
+            #[doc = $x]
+            extern "C" {}
+        };
+    }
+
+    external_doc_test!(include_str!("../README.md"));
+}

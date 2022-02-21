@@ -1,15 +1,11 @@
 name: Validation
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   conventions:
     name: Conventions
-    strategy:
-      matrix:
-        os: ["ubuntu-latest"]
-        toolchain: ["stable", "beta", "nightly"]
-    runs-on: ${{ matrix.os }}
+    runs-on: "ubuntu-latest"
     steps:
       - uses: actions/checkout@v2
 
@@ -17,7 +13,7 @@ jobs:
         uses: actions-rs/toolchain@v1
         id: toolchain
         with:
-          toolchain: ${{ matrix.toolchain }}
+          toolchain: stable
           components: rustfmt, clippy
           override: true
           default: true
@@ -29,7 +25,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: target
-          key: ${{ matrix.os }}-${{ steps.toolchain.outputs.rustc_hash }}-build-${{ hashFiles('Cargo.lock') }}
+          key: ubuntu-latest-${{ steps.toolchain.outputs.rustc_hash }}-build-${{ hashFiles('Cargo.lock') }}
 
       - name: Perform clippy checks.
         run: cargo clippy --all-targets --all-features -- -D warnings
@@ -38,8 +34,8 @@ jobs:
     name: Testing
     strategy:
       matrix:
-        os: ["windows-2019", "ubuntu-16.04", "ubuntu-18.04", "macOS-latest"]
-        toolchain: ["stable", "beta", "nightly"]
+        os: ["windows-2019", "ubuntu-latest", "macOS-latest"]
+        toolchain: ["stable"]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
@@ -87,4 +83,4 @@ jobs:
           args: "--verbose --all-features --workspace"
 
       - name: Upload to codecov.io
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v2

@@ -1,7 +1,7 @@
 [package]
 name = "rsef-rs"
-version = "0.2.0"
-authors = ["Christian Veenman <chris_veenman@hotmail.com>"]
+version = "0.3.0"
+authors = ["Christian <devqps@protonmail.com>"]
 edition = '2018'
 readme = "README.md"
 keywords = ["rsef", "parser", "rir"]
@@ -12,8 +12,6 @@ documentation = "https://docs.rs/rsef-rs"
 description = "A library for downloading and parsing RIR Statistics Exchange Format (RSEF) listings."
 license = "GPL-3.0"
 exclude = [
-    "README.md",
-    "tests/*",
     ".github/*"
 ]
 
@@ -23,13 +21,14 @@ maintenance = { status = "actively-developed" }
 
 [features]
 # Allows a user to download the RSEF listings.
-download = ["reqwest", "bzip2", "libflate", "chrono"]
+download = ["reqwest", "bzip2", "libflate", "chrono", "tokio"]
 
 # No feature is included in the default distribution.
-default = []
+default = ["download"]
 
 [dependencies]
 reqwest = { version = "0.9", optional = true }
-bzip2 = { version = "0.3", optional = true }
-libflate = { version = "1.0", optional = true }
+bzip2 = { version = "0.4", optional = true }
+libflate = { version = "1", optional = true }
 chrono = { version = "0.4", optional = true }
+tokio = { version = "1", optional = true, features = ["macros", "rt", "rt-multi-thread"]}
